@@ -1,15 +1,19 @@
 import ModelPageLayout from "../components/ModelPageLayout.jsx";
 
 const fields = [
-  { name: "hours_studied", label: "Hours studied / week", unit: "hrs", step: "0.5", min: 0, max: 24 },
-  { name: "attendance_percentage", label: "Attendance", unit: "%", step: "1", min: 0, max: 100 },
-  { name: "previous_score", label: "Previous exam score", unit: "%", step: "1", min: 0, max: 100 },
+  { name: "prev_close", label: "Previous close", unit: "$", step: "0.01" },
+  { name: "open", label: "Open price", unit: "$", step: "0.01" },
+  { name: "high", label: "Day high", unit: "$", step: "0.01" },
+  { name: "low", label: "Day low", unit: "$", step: "0.01" },
+  { name: "volume", label: "Volume", unit: "shares", step: "1" },
 ];
 
 const defaultValues = {
-  hours_studied: 6,
-  attendance_percentage: 85,
-  previous_score: 70,
+  prev_close: 101.25,
+  open: 101.8,
+  high: 103.4,
+  low: 100.6,
+  volume: 245000,
 };
 
 export default function LogisticRegression() {

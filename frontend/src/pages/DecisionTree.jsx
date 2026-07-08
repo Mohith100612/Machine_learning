@@ -1,17 +1,19 @@
 import ModelPageLayout from "../components/ModelPageLayout.jsx";
 
 const fields = [
-  { name: "outlook", label: "Outlook", type: "select", options: ["Sunny", "Overcast", "Rain"] },
-  { name: "temperature", label: "Temperature", type: "select", options: ["Hot", "Mild", "Cool"] },
-  { name: "humidity", label: "Humidity", type: "select", options: ["High", "Normal"] },
-  { name: "wind", label: "Wind", type: "select", options: ["Weak", "Strong"] },
+  { name: "prev_close", label: "Previous close", unit: "$", step: "0.01" },
+  { name: "open", label: "Open price", unit: "$", step: "0.01" },
+  { name: "high", label: "Day high", unit: "$", step: "0.01" },
+  { name: "low", label: "Day low", unit: "$", step: "0.01" },
+  { name: "volume", label: "Volume", unit: "shares", step: "1" },
 ];
 
 const defaultValues = {
-  outlook: "Sunny",
-  temperature: "Mild",
-  humidity: "Normal",
-  wind: "Weak",
+  prev_close: 101.25,
+  open: 101.8,
+  high: 103.4,
+  low: 100.6,
+  volume: 245000,
 };
 
 export default function DecisionTree() {

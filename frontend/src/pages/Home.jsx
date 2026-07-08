@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getModels } from "../api.js";
+import DataTable from "../components/DataTable.jsx";
 
 const SUPERVISED = [
   {
@@ -8,8 +9,8 @@ const SUPERVISED = [
     path: "/linear-regression",
     number: "01",
     title: "Linear Regression",
-    useCase: "Stock Price Prediction",
-    desc: "Fits a straight-line relationship between market signals and next-day closing price.",
+    useCase: "Stock Price Change Prediction",
+    desc: "Fits a straight-line relationship between today's price action and the size of tomorrow's move.",
     task: "regression",
   },
   {
@@ -17,8 +18,8 @@ const SUPERVISED = [
     path: "/logistic-regression",
     number: "02",
     title: "Logistic Regression",
-    useCase: "Student Pass / Fail Prediction",
-    desc: "Estimates the probability of passing from study habits and prior performance.",
+    useCase: "Stock Price Movement Prediction",
+    desc: "Estimates the probability that tomorrow's close will rise or fall from today's price action.",
     task: "classification",
   },
   {
@@ -26,8 +27,8 @@ const SUPERVISED = [
     path: "/decision-tree",
     number: "03",
     title: "Decision Tree",
-    useCase: "Play Tennis Prediction",
-    desc: "Splits weather conditions into simple yes/no rules to decide play or no play.",
+    useCase: "Stock Price Movement Prediction",
+    desc: "Splits price and volume signals into simple yes/no rules to call the next move up or down.",
     task: "classification",
   },
   {
@@ -35,8 +36,8 @@ const SUPERVISED = [
     path: "/random-forest",
     number: "04",
     title: "Random Forest",
-    useCase: "Fruit Classification",
-    desc: "An ensemble of trees votes on fruit type from weight, size and color.",
+    useCase: "Stock Price Movement Prediction",
+    desc: "An ensemble of trees votes on whether the next close will rise or fall from today's OHLC and volume.",
     task: "classification",
   },
   {
@@ -44,57 +45,9 @@ const SUPERVISED = [
     path: "/gradient-boosting",
     number: "05",
     title: "Gradient Boosting",
-    useCase: "House Price Prediction",
-    desc: "Sequentially corrected trees combine to estimate market value from property features.",
+    useCase: "Stock Price Change Prediction",
+    desc: "An ensemble of shallow trees estimates the size of tomorrow's price move from today's OHLC and volume.",
     task: "regression",
-  },
-];
-
-const UNSUPERVISED = [
-  {
-    id: "kmeans",
-    path: "/kmeans",
-    number: "06",
-    title: "K-Means",
-    useCase: "Customer Segmentation",
-    desc: "Groups customers into segments by age, income and spending — no labels needed.",
-    task: "clustering",
-  },
-  {
-    id: "hierarchical-clustering",
-    path: "/hierarchical-clustering",
-    number: "07",
-    title: "Hierarchical Clustering",
-    useCase: "Country Development Grouping",
-    desc: "Merges countries bottom-up into development tiers from socio-economic indicators.",
-    task: "clustering",
-  },
-  {
-    id: "pca",
-    path: "/pca",
-    number: "08",
-    title: "PCA",
-    useCase: "Wine Chemical Profile Compression",
-    desc: "Compresses 6 chemical measurements into 2 components that keep most of the variance.",
-    task: "dimensionality reduction",
-  },
-  {
-    id: "dbscan",
-    path: "/dbscan",
-    number: "09",
-    title: "DBSCAN",
-    useCase: "Taxi Pickup Hotspot Detection",
-    desc: "Finds dense pickup hotspots of any shape and flags isolated pickups as noise.",
-    task: "clustering",
-  },
-  {
-    id: "autoencoder",
-    path: "/autoencoder",
-    number: "10",
-    title: "Autoencoder",
-    useCase: "Machine Sensor Anomaly Detection",
-    desc: "A neural net learns to reconstruct normal readings — what it can't rebuild is an anomaly.",
-    task: "anomaly detection",
   },
 ];
 
@@ -148,6 +101,21 @@ function ModuleCard({ m, metrics }) {
   );
 }
 
+const PERFORMANCE_COLUMNS = ["Model", "Task", "Accuracy", "R2 Score", "MAE"];
+
+function buildPerformanceRows(metrics) {
+  return SUPERVISED.map((m) => {
+    const met = metrics[m.id] || {};
+    return {
+      Model: m.title,
+      Task: m.task,
+      Accuracy: met.accuracy != null ? `${(met.accuracy * 100).toFixed(1)}%` : "—",
+      "R2 Score": met.r2_score != null ? `${(met.r2_score * 100).toFixed(1)}%` : "—",
+      MAE: met.mae != null ? met.mae.toFixed(2) : "—",
+    };
+  });
+}
+
 export default function Home() {
   const [metrics, setMetrics] = useState({});
   const [apiDown, setApiDown] = useState(false);
@@ -165,15 +133,15 @@ export default function Home() {
   return (
     <div className="max-w-6xl mx-auto px-6 py-14">
       <div className="mb-14 max-w-2xl">
-        <p className="mono-tag mb-3">10 trained models · live inference</p>
+        <p className="mono-tag mb-3">5 trained models · live inference</p>
         <h1 className="font-display text-4xl md:text-5xl font-bold text-slate-50 leading-tight">
           Machine Learning, <span className="text-signal">signal by signal.</span>
         </h1>
         <p className="text-slate-400 mt-4 leading-relaxed">
-          Five supervised and five unsupervised algorithms, each with its own
+          Five supervised algorithms, all trained on the same stock price
           dataset. Pick a module to inspect the training data, enter your own
-          values, and run a live prediction against a model trained just now on
-          the backend.
+          values, and run a live prediction against a model trained just now
+          on the backend.
         </p>
         {apiDown && (
           <p className="mt-4 text-sm text-danger bg-danger/10 border border-danger/30 rounded-lg px-3 py-2 inline-block">
@@ -188,22 +156,23 @@ export default function Home() {
         </h2>
         <span className="mono-tag !text-slate-500">learns from labelled examples</span>
       </div>
-      <div className="grid md:grid-cols-2 gap-5 mb-14">
+      <div className="grid md:grid-cols-2 gap-5">
         {SUPERVISED.map((m) => (
           <ModuleCard key={m.id} m={m} metrics={metrics[m.id]} />
         ))}
       </div>
 
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center gap-3 mb-6 mt-14">
         <h2 className="font-display text-2xl font-semibold text-slate-50">
-          Unsupervised Learning
+          Model Performance
         </h2>
-        <span className="mono-tag !text-slate-500">finds structure without labels</span>
+        <span className="mono-tag !text-slate-500">held-out test metrics</span>
       </div>
-      <div className="grid md:grid-cols-2 gap-5">
-        {UNSUPERVISED.map((m) => (
-          <ModuleCard key={m.id} m={m} metrics={metrics[m.id]} />
-        ))}
+      <div className="panel p-6">
+        <DataTable
+          columns={PERFORMANCE_COLUMNS}
+          rows={buildPerformanceRows(metrics)}
+        />
       </div>
     </div>
   );

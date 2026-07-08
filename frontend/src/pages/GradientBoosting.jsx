@@ -1,19 +1,19 @@
 import ModelPageLayout from "../components/ModelPageLayout.jsx";
 
 const fields = [
-  { name: "area_sqft", label: "Area", unit: "sqft", step: "1", min: 0 },
-  { name: "bedrooms", label: "Bedrooms", step: "1", min: 0, max: 10 },
-  { name: "bathrooms", label: "Bathrooms", step: "1", min: 0, max: 10 },
-  { name: "age_years", label: "Age of property", unit: "yrs", step: "1", min: 0 },
-  { name: "location_score", label: "Location score", unit: "1-10", step: "0.1", min: 1, max: 10 },
+  { name: "prev_close", label: "Previous close", unit: "$", step: "0.01" },
+  { name: "open", label: "Open price", unit: "$", step: "0.01" },
+  { name: "high", label: "Day high", unit: "$", step: "0.01" },
+  { name: "low", label: "Day low", unit: "$", step: "0.01" },
+  { name: "volume", label: "Volume", unit: "shares", step: "1" },
 ];
 
 const defaultValues = {
-  area_sqft: 2000,
-  bedrooms: 3,
-  bathrooms: 2,
-  age_years: 5,
-  location_score: 7.5,
+  prev_close: 101.25,
+  open: 101.8,
+  high: 103.4,
+  low: 100.6,
+  volume: 245000,
 };
 
 export default function GradientBoosting() {

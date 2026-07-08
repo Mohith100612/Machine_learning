@@ -9,7 +9,6 @@ import { getSample, getInfo, predict } from "../api.js";
 function formatMetric(k, v) {
   if (typeof v !== "number") return v;
   if (k === "r2_score" || k === "accuracy") return (v * 100).toFixed(1) + "%";
-  if (k.includes("variance")) return v.toFixed(1) + "%";
   if (k.includes("mae")) return v.toLocaleString();
   if (Number.isInteger(v)) return v.toLocaleString();
   return v.toFixed(2);
@@ -86,7 +85,7 @@ export default function ModelPageLayout({
       {/* Header */}
       <div className="flex items-start justify-between flex-wrap gap-4 mb-8">
         <div>
-          <p className="mono-tag mb-2">Module {moduleNumber} / 10</p>
+          <p className="mono-tag mb-2">Module {moduleNumber} / 5</p>
           <h1 className="font-display text-3xl font-bold text-slate-50">
             {info?.name || "…"}
           </h1>
@@ -220,38 +219,6 @@ export default function ModelPageLayout({
                   <p className="text-xs text-slate-500 mt-3">
                     Model R² on held-out test data: {(result.metrics.r2_score * 100).toFixed(1)}%
                   </p>
-                </div>
-              ) : result.task === "dimensionality-reduction" ? (
-                <div className="py-2">
-                  <p className="mono-tag mb-4 text-center">projected coordinates</p>
-                  <div className="flex justify-center gap-10">
-                    {Object.entries(result.projection).map(([pc, val]) => (
-                      <div key={pc} className="text-center">
-                        <p className="font-display text-3xl font-bold text-signal">
-                          {val}
-                        </p>
-                        <p className="mono-tag mt-1">{pc}</p>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-6 flex flex-col gap-2">
-                    {Object.entries(result.explained_variance).map(([pc, v]) => (
-                      <div key={pc}>
-                        <div className="flex justify-between text-xs mb-1">
-                          <span className="text-slate-400">
-                            {pc} · variance explained
-                          </span>
-                          <span className="font-mono text-slate-300">{v}%</span>
-                        </div>
-                        <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                          <div
-                            className="h-full rounded-full bg-signal"
-                            style={{ width: `${v}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
                 </div>
               ) : (
                 <div>

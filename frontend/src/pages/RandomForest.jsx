@@ -1,19 +1,19 @@
 import ModelPageLayout from "../components/ModelPageLayout.jsx";
 
 const fields = [
-  { name: "weight_g", label: "Weight", unit: "g", step: "0.1", min: 0 },
-  { name: "diameter_cm", label: "Diameter", unit: "cm", step: "0.1", min: 0 },
-  { name: "red", label: "Red channel", unit: "0-255", step: "1", min: 0, max: 255 },
-  { name: "green", label: "Green channel", unit: "0-255", step: "1", min: 0, max: 255 },
-  { name: "blue", label: "Blue channel", unit: "0-255", step: "1", min: 0, max: 255 },
+  { name: "prev_close", label: "Previous close", unit: "$", step: "0.01" },
+  { name: "open", label: "Open price", unit: "$", step: "0.01" },
+  { name: "high", label: "Day high", unit: "$", step: "0.01" },
+  { name: "low", label: "Day low", unit: "$", step: "0.01" },
+  { name: "volume", label: "Volume", unit: "shares", step: "1" },
 ];
 
 const defaultValues = {
-  weight_g: 150,
-  diameter_cm: 7.5,
-  red: 190,
-  green: 40,
-  blue: 40,
+  prev_close: 101.25,
+  open: 101.8,
+  high: 103.4,
+  low: 100.6,
+  volume: 245000,
 };
 
 export default function RandomForest() {

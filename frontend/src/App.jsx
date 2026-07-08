@@ -6,11 +6,6 @@ import LogisticRegression from "./pages/LogisticRegression.jsx";
 import DecisionTree from "./pages/DecisionTree.jsx";
 import RandomForest from "./pages/RandomForest.jsx";
 import GradientBoosting from "./pages/GradientBoosting.jsx";
-import KMeans from "./pages/KMeans.jsx";
-import HierarchicalClustering from "./pages/HierarchicalClustering.jsx";
-import PCAPage from "./pages/PCAPage.jsx";
-import DBSCANPage from "./pages/DBSCANPage.jsx";
-import Autoencoder from "./pages/Autoencoder.jsx";
 
 export default function App() {
   return (
@@ -23,11 +18,6 @@ export default function App() {
         <Route path="/decision-tree" element={<DecisionTree />} />
         <Route path="/random-forest" element={<RandomForest />} />
         <Route path="/gradient-boosting" element={<GradientBoosting />} />
-        <Route path="/kmeans" element={<KMeans />} />
-        <Route path="/hierarchical-clustering" element={<HierarchicalClustering />} />
-        <Route path="/pca" element={<PCAPage />} />
-        <Route path="/dbscan" element={<DBSCANPage />} />
-        <Route path="/autoencoder" element={<Autoencoder />} />
         <Route
           path="*"
           element={
